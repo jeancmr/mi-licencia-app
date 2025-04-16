@@ -1,8 +1,8 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const USUARIO_TABLE = 'usuarios';
+const MATERIA_TABLE = 'materias';
 
-const UsuarioSchema = {
+const MateriasSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -13,26 +13,14 @@ const UsuarioSchema = {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  correo: {
+  descripcion: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  codigo: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
-    validate: {
-      isEmail: true,
-    },
-  },
-  contrasena: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  identificacion: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  rol: {
-    type: DataTypes.ENUM('estudiante', 'profesor', 'admin'),
-    allowNull: false,
   },
   createdAt: {
     allowNull: false,
@@ -49,7 +37,7 @@ const UsuarioSchema = {
   },
 };
 
-class Usuario extends Model {
+class Materia extends Model {
   static associate(models) {
     // Aquí puedes definir relaciones si las tienes más adelante
   }
@@ -57,15 +45,15 @@ class Usuario extends Model {
   static config(sequelize) {
     return {
       sequelize,
-      tableName: USUARIO_TABLE,
-      modelName: 'Usuario',
+      tableName: MATERIA_TABLE,
+      modelName: 'Materia',
       timestamps: false,
     };
   }
 }
 
 module.exports = {
-  USUARIO_TABLE,
-  UsuarioSchema,
-  Usuario,
+  MATERIA_TABLE,
+  MateriasSchema,
+  Materia,
 };
