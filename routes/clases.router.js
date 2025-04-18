@@ -1,34 +1,39 @@
 const express = require('express');
-const UsersService = require('./../services/usuario.service');
+const ClasesService = require('./../services/clase.service');
 const validatorHandler = require('./../middlewares/validator.handler');
-const { createUserSchema, updateUserSchema, getUserSchema } = require('../schemas/usuario.schema');
-const service = new UsersService();
+const {
+  createClaseSchema,
+  updateClaseSchema,
+  getClaseSchema,
+} = require('../schemas/clase.schema.js');
 const router = express.Router();
+const service = new ClasesService();
 
 router.get('/', async (req, res, next) => {
   try {
-    const users = await service.find();
-    res.json(users);
+    const clases = await service.find();
+
+    res.json(clases);
   } catch (error) {
     next(error);
   }
 });
 
-router.get('/:id', validatorHandler(getUserSchema, 'params'), async (req, res, next) => {
+router.get('/:id', validatorHandler(getClaseSchema, 'params'), async (req, res, next) => {
   try {
     const { id } = req.params;
-    const user = await service.findOne(id);
-    res.json(user);
+    const clase = await service.findOne(id);
+    res.json(clase);
   } catch (error) {
     next(error);
   }
 });
 
-router.post('/', validatorHandler(createUserSchema, 'body'), async (req, res, next) => {
+router.post('/', validatorHandler(createClaseSchema, 'body'), async (req, res, next) => {
   try {
     const body = req.body;
-    const newUser = await service.create(body);
-    res.status(201).json(newUser);
+    const newclase = await service.create(body);
+    res.status(201).json(newclase);
   } catch (error) {
     next(error);
   }
@@ -36,14 +41,14 @@ router.post('/', validatorHandler(createUserSchema, 'body'), async (req, res, ne
 
 router.patch(
   '/:id',
-  validatorHandler(getUserSchema, 'params'),
-  validatorHandler(updateUserSchema, 'body'),
+  validatorHandler(getClaseSchema, 'params'),
+  validatorHandler(updateClaseSchema, 'body'),
   async (req, res, next) => {
     try {
       const { id } = req.params;
       const body = req.body;
-      const updatedUser = await service.update(id, body);
-      res.json(updatedUser);
+      const updatedclase = await service.update(id, body);
+      res.json(updatedclase);
     } catch (error) {
       next(error);
     }
