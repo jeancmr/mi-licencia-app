@@ -4,7 +4,24 @@ const { models } = require('./../libs/sequelize');
 class EnrollmentsService {
   constructor() {}
 
+  async isClassFull(claseId) {
+    const numRegistered = await models.Inscripcion.count({
+      where: { claseId },
+    });
+    const classInfo = await models.Clase.findByPk(claseId);
+
+    if (!classInfo) {
+      throw boom.notFound('Class not found');
+    }
+    if (numRegistered >= classInfo.cuposMaximos) {
+      throw boom.conflict('Class has reached its maximum capacity');
+    }
+  }
+
   async create(data) {
+    const { claseId } = data;
+    await this.isClassFull(claseId);
+
     const newEnrollment = await models.Inscripcion.create(data);
     return newEnrollment;
   }
