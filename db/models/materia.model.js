@@ -39,7 +39,10 @@ const MateriasSchema = {
 
 class Materia extends Model {
   static associate(models) {
-    // Aquí puedes definir relaciones si las tienes más adelante
+    this.hasMany(models.Clase, {
+      as: 'clases',
+      foreignKey: 'materia_id',
+    });
   }
 
   static config(sequelize) {

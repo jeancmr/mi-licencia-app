@@ -51,7 +51,23 @@ const UsuarioSchema = {
 
 class Usuario extends Model {
   static associate(models) {
-    // Aquí puedes definir relaciones si las tienes más adelante
+    this.hasMany(models.Clase, {
+      as: 'clasesDictadas',
+      foreignKey: 'profesorId',
+    });
+
+    this.belongsToMany(models.Clase, {
+      through: models.Inscripcion,
+      foreignKey: 'estudianteId',
+      otherKey: 'claseId',
+      as: 'clasesInscritas',
+    });
+    this.belongsToMany(models.Clase, {
+      through: models.Asistencia,
+      foreignKey: 'estudianteId',
+      otherKey: 'claseId',
+      as: 'asistencias',
+    });
   }
 
   static config(sequelize) {

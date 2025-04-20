@@ -13,6 +13,15 @@ class UsersService {
     const users = await models.Usuario.findAll();
     return users;
   }
+  async findStudents() {
+    const students = await models.Usuario.findAll({
+      where: {
+        rol: 'estudiante',
+      },
+      include: ['clasesInscritas'],
+    });
+    return students;
+  }
 
   async findOne(id) {
     const user = await models.Usuario.findByPk(id);

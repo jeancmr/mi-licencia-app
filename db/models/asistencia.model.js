@@ -1,8 +1,8 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const INSCRIPCIONES_TABLE = 'inscripciones';
+const ASISTENCIA_TABLE = 'asistencias';
 
-const InscripcionSchema = {
+const AsistenciaSchema = {
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -31,7 +31,12 @@ const InscripcionSchema = {
     onUpdate: 'CASCADE',
     onDelete: 'CASCADE',
   },
-  fechaInscripcion: {
+  asistio: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  fechaRegistro: {
     allowNull: false,
     type: DataTypes.DATE,
     field: 'fecha_inscripcion',
@@ -52,7 +57,7 @@ const InscripcionSchema = {
   },
 };
 
-class Inscripcion extends Model {
+class Asistencia extends Model {
   static associate(models) {
     this.belongsTo(models.Usuario, {
       as: 'estudiante',
@@ -68,15 +73,15 @@ class Inscripcion extends Model {
   static config(sequelize) {
     return {
       sequelize,
-      tableName: INSCRIPCIONES_TABLE,
-      modelName: 'Inscripcion',
+      tableName: ASISTENCIA_TABLE,
+      modelName: 'Asistencia',
       timestamps: false,
     };
   }
 }
 
 module.exports = {
-  INSCRIPCIONES_TABLE,
-  InscripcionSchema,
-  Inscripcion,
+  ASISTENCIA_TABLE,
+  AsistenciaSchema,
+  Asistencia,
 };

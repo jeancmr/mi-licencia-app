@@ -10,7 +10,14 @@ class EnrollmentsService {
   }
 
   async find() {
-    const enrollments = await models.Inscripcion.findAll();
+    const enrollments = await models.Inscripcion.findAll({
+      include: [
+        {
+          association: 'estudiante',
+          attributes: ['nombre', 'identificacion'],
+        },
+      ],
+    });
     return enrollments;
   }
 

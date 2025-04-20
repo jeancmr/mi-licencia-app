@@ -1,0 +1,39 @@
+const boom = require('@hapi/boom');
+const { models } = require('./../libs/sequelize');
+
+class AttendancesService {
+  constructor() {}
+
+  async create(data) {
+    const newAttendance = await models.Asistencia.create(data);
+    return newAttendance;
+  }
+
+  async find() {
+    const attendances = await models.Asistencia.findAll();
+
+    return attendances;
+  }
+
+  async findOne(id) {
+    const attendance = await models.Asistencia.findByPk(id);
+    if (!attendance) {
+      throw boom.notFound('Asistencia not found');
+    }
+    return attendance;
+  }
+
+  async update(id, changes) {
+    const attendance = await this.findOne(id);
+    const updatedAttendance = await attendance.update(changes);
+    return updatedAttendance;
+  }
+
+  async delete(id) {
+    const attendance = await this.findOne(id);
+    await attendance.destroy();
+    return { id };
+  }
+}
+
+module.exports = AttendancesService;

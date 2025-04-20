@@ -14,6 +14,15 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/estudiantes', async (req, res, next) => {
+  try {
+    const users = await service.findStudents();
+    res.json(users);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get('/:id', validatorHandler(getUserSchema, 'params'), async (req, res, next) => {
   try {
     const { id } = req.params;

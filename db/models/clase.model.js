@@ -59,7 +59,39 @@ const ClaseSchema = {
 };
 
 class Clase extends Model {
-  static associate(models) {}
+  static associate(models) {
+    this.belongsTo(models.Usuario, {
+      as: 'profesor',
+      foreignKey: 'profesorId',
+    });
+    this.belongsTo(models.Materia, {
+      as: 'materia',
+      foreignKey: 'materiaId',
+    });
+    // this.hasMany(models.Asistencia, {
+    //   as: 'asistencias',
+    //   foreignKey: 'claseId',
+    // });
+    this.belongsToMany(models.Usuario, {
+      through: models.Inscripcion,
+      foreignKey: 'claseId',
+      otherKey: 'estudianteId',
+      as: 'estudiantes',
+    });
+    this.belongsToMany(models.Usuario, {
+      through: models.Asistencia,
+      foreignKey: 'claseId',
+      otherKey: 'estudianteId',
+      as: 'asistencias',
+    });
+  }
+
+  // toJSON() {
+  //   const values = { ...this.get() };
+  //   delete values.materia_id;
+  //   delete values.profesor_id;
+  //   return values;
+  // }
 
   static config(sequelize) {
     return {
