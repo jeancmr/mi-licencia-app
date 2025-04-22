@@ -21,6 +21,7 @@ class EnrollmentsService {
   async create(data) {
     const { claseId } = data;
     await this.isClassFull(claseId);
+    await this.isAlreadyEnrolled(data);
 
     const newEnrollment = await models.Inscripcion.create(data);
     return newEnrollment;
@@ -56,6 +57,18 @@ class EnrollmentsService {
     const enrollment = await this.findOne(id);
     await enrollment.destroy();
     return { id };
+  }
+
+  async isAlreadyEnrolled(data) {
+    const { estudianteId, claseId } = data;
+    const studentClass = await models.Inscripcion.findOne({
+      where: {
+        estudianteId,
+        claseId,
+      },
+    });
+
+    if (studentClass) throw boom.conflict('Ya se encuentra inscrito a la clase');
   }
 }
 
