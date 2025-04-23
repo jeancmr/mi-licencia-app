@@ -30,6 +30,17 @@ class UsersService {
     }
     return user;
   }
+  async findOneByEmail(correo) {
+    const user = await models.Usuario.findOne({
+      where: {
+        correo,
+      },
+    });
+    if (!user) {
+      throw boom.notFound('Usuario not found');
+    }
+    return user;
+  }
 
   async update(id, changes) {
     const user = await this.findOne(id);

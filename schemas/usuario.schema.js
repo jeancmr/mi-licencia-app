@@ -14,6 +14,10 @@ const createUserSchema = Joi.object({
   identificacion: identificacion.required(),
   rol: rol.required(),
 });
+const loginUserSchema = Joi.object({
+  correo: correo.required(),
+  contrasena: contrasena.required(),
+});
 
 const updateUserSchema = Joi.object({
   nombre,
@@ -29,6 +33,7 @@ const getUserSchema = Joi.object({
 
 module.exports = {
   createUserSchema,
+  loginUserSchema,
   updateUserSchema,
   getUserSchema,
 };
