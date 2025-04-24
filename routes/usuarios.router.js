@@ -10,6 +10,7 @@ const {
 const service = new UsersService();
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const createAccessToken = require('../libs/jwt');
 
 router.get('/', async (req, res, next) => {
   try {
@@ -71,9 +72,12 @@ router.post('/login', validatorHandler(loginUserSchema, 'body'), async (req, res
     }
 
     const isMatched = await bcrypt.compare(contrasena, user.contrasena);
-    if (!isMatched) {
-      return res.status(400).json({ error: 'Contraseña incorrecta' });
-    }
+
+    if (!isMatched) return res.status(400).json({ error: 'Contraseña incorrecta' });
+
+    const token = await createAccessToken({ id: user.id });
+
+    res.cookie('token', token);
 
     res.status(200).json({
       message: 'Usuario logueado correctamente',
@@ -86,6 +90,15 @@ router.post('/login', validatorHandler(loginUserSchema, 'body'), async (req, res
         updatedAt: user.updatedAt,
       },
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post('/logout', async (req, res, next) => {
+  try {
+    res.clearCookie('token');
+    res.status(200).json({ message: 'Usuario deslogueado correctamente' });
   } catch (error) {
     next(error);
   }
