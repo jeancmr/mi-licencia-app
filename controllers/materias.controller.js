@@ -33,9 +33,9 @@ async function getMateria(req, res, next) {
 async function updateMateria(req, res, next) {
   try {
     const { id } = req.params;
-    const changes = req.body;
-    const materia = await service.update(id, changes);
-    res.json(materia);
+    const body = req.body;
+    const updatedMateria = await service.update(id, body);
+    res.json(updatedMateria);
   } catch (error) {
     next(error);
   }
@@ -44,8 +44,8 @@ async function updateMateria(req, res, next) {
 async function deleteMateria(req, res, next) {
   try {
     const { id } = req.params;
-    await service.delete(id);
-    res.status(204).send();
+    const response = await service.delete(id);
+    res.json(response);
   } catch (error) {
     next(error);
   }
