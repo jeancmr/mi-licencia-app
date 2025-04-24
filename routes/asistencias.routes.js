@@ -12,7 +12,6 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
   try {
     const attendances = await service.find();
-    console.log(attendances);
 
     res.json(attendances);
   } catch (error) {

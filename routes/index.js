@@ -1,10 +1,10 @@
 const express = require('express');
-const usuariosRouter = require('./usuarios.router');
-const materiasRouter = require('./materias.router');
-const clasesRouter = require('./clases.router');
-const inscripcionesRouter = require('./inscripciones.router');
-const asistenciaRouter = require('./asistencias.router');
-const authRouter = require('./auth.router');
+const usuariosRouter = require('./usuarios.routes');
+const materiasRouter = require('./materias.routes');
+const clasesRouter = require('./clases.routes');
+const inscripcionesRouter = require('./inscripciones.routes');
+const asistenciaRouter = require('./asistencias.routes');
+const authRouter = require('./auth.routes');
 
 function routerApi(app) {
   const router = express.Router();
