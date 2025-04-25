@@ -1,60 +1,60 @@
 const ClasesService = require('../services/clase.service');
 const service = new ClasesService();
 
-async function createUser(req, res, next) {
+async function createClass(req, res, next) {
   try {
     const data = req.body;
-    const newUser = await service.create(data);
-    res.status(201).json(newUser);
+    const newClass = await service.create(data);
+    res.status(201).json(newClass);
   } catch (error) {
     next(error);
   }
 }
 
-async function getUsers(req, res, next) {
+async function getClasses(req, res, next) {
   try {
-    const users = await service.find();
-    res.json(users);
+    const classes = await service.find();
+    res.json(classes);
   } catch (error) {
     next(error);
   }
 }
 
-async function getUser(req, res, next) {
+async function getClass(req, res, next) {
   try {
     const { id } = req.params;
-    const clase = await service.findOne(id);
-    res.json(clase);
+    const classFound = await service.findOne(id);
+    res.json(classFound);
   } catch (error) {
     next(error);
   }
 }
 
-async function updateUser(req, res, next) {
+async function updateClass(req, res, next) {
   try {
     const { id } = req.params;
     const changes = req.body;
-    const clase = await service.update(id, changes);
-    res.json(clase);
+    const updatedClass = await service.update(id, changes);
+    res.json(updatedClass);
   } catch (error) {
     next(error);
   }
 }
 
-async function deleteUser(req, res, next) {
+async function deleteClass(req, res, next) {
   try {
     const { id } = req.params;
-    await service.delete(id);
-    res.status(204).send();
+    const response = await service.delete(id);
+    res.json(response);
   } catch (error) {
     next(error);
   }
 }
 
 module.exports = {
-  createUser,
-  getUsers,
-  getUser,
-  updateUser,
-  deleteUser,
+  createClass,
+  getClasses,
+  getClass,
+  updateClass,
+  deleteClass,
 };

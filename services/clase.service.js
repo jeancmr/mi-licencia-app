@@ -9,6 +9,9 @@ class ClasesService {
     const profesor = await models.Usuario.findByPk(data.profesorId);
     if (!profesor || profesor.rol !== 'profesor') throw boom.notFound('Profesor not found');
 
+    const materia = await models.Usuario.findByPk(data.materiaId);
+    if (!materia || materia) throw boom.notFound('Materia not found');
+
     await this.crossScheduleProfessor(data);
     const newClase = await models.Clase.create(data);
     return newClase;
