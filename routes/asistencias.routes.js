@@ -1,6 +1,6 @@
 const express = require('express');
-const AttendancesService = require('./../services/asistencia.service');
 const validatorHandler = require('./../middlewares/validator.handler');
+const authRequired = require('../middlewares/validateToken');
 const {
   createAsistenciaSchema,
   getAsistenciaSchema,
@@ -13,22 +13,22 @@ const {
   updateAttendance,
   deleteAttendance,
 } = require('../controllers/asistencias.controller');
-const service = new AttendancesService();
 const router = express.Router();
 
-router.get('/', getAttendances);
+router.get('/', authRequired, getAttendances);
 
-router.get('/:id', validatorHandler(getAsistenciaSchema, 'params'), getAttendance);
+router.get('/:id', authRequired, validatorHandler(getAsistenciaSchema, 'params'), getAttendance);
 
-router.post('/', validatorHandler(createAsistenciaSchema, 'body'), createAttendance);
+router.post('/', authRequired, validatorHandler(createAsistenciaSchema, 'body'), createAttendance);
 
 router.patch(
   '/:id',
+  authRequired,
   validatorHandler(getAsistenciaSchema, 'params'),
   validatorHandler(updateAsistenciaSchema, 'body'),
   updateAttendance
 );
 
-router.delete('/:id', deleteAttendance);
+router.delete('/:id', authRequired, deleteAttendance);
 
 module.exports = router;

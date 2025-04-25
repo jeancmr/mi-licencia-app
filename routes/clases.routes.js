@@ -1,5 +1,6 @@
 const express = require('express');
 const validatorHandler = require('./../middlewares/validator.handler');
+const authRequired = require('../middlewares/validateToken');
 const {
   createClaseSchema,
   updateClaseSchema,
@@ -15,19 +16,20 @@ const {
 
 const router = express.Router();
 
-router.get('/', getClasses);
+router.get('/', authRequired, getClasses);
 
-router.get('/:id', validatorHandler(getClaseSchema, 'params'), getClass);
+router.get('/:id', authRequired, validatorHandler(getClaseSchema, 'params'), getClass);
 
-router.post('/', validatorHandler(createClaseSchema, 'body'), createClass);
+router.post('/', authRequired, validatorHandler(createClaseSchema, 'body'), createClass);
 
 router.patch(
   '/:id',
+  authRequired,
   validatorHandler(getClaseSchema, 'params'),
   validatorHandler(updateClaseSchema, 'body'),
   updateClass
 );
 
-router.delete('/:id', deleteClass);
+router.delete('/:id', authRequired, deleteClass);
 
 module.exports = router;
