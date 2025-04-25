@@ -38,7 +38,11 @@ const login = async (req, res, next) => {
     if (!isMatched) return res.status(400).json({ error: 'Contraseña incorrecta' });
 
     const token = await createAccessToken({ id: user.id });
-    res.cookie('token', token);
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 15 * 60 * 1000, // 15 minutes
+    });
 
     res.status(200).json({
       message: 'Usuario logueado correctamente',

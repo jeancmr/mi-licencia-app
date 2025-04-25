@@ -1,6 +1,6 @@
 const express = require('express');
 const validatorHandler = require('./../middlewares/validator.handler');
-const { authRequired } = require('../middlewares/validateToken');
+const authRequired = require('../middlewares/validateToken');
 const { loginUserSchema, createUserSchema } = require('../schemas/usuario.schema');
 const { register, login, profile, logout } = require('../controllers/auth.controller');
 
