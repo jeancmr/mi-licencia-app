@@ -1,7 +1,8 @@
 const UsersService = require('./../services/usuario.service');
+const bcrypt = require('bcrypt');
+const boom = require('@hapi/boom');
 const service = new UsersService();
 const createAccessToken = require('../libs/jwt');
-const bcrypt = require('bcrypt');
 
 const register = async (req, res, next) => {
   try {
@@ -35,7 +36,8 @@ const login = async (req, res, next) => {
     }
 
     const isMatched = await bcrypt.compare(contrasena, user.contrasena);
-    if (!isMatched) return res.status(400).json({ error: 'Contraseña incorrecta' });
+    if (!isMatched) throw boom.unauthorized('Contraseña incorrecta');
+    // if (!isMatched) return res.status(400).json({ error: 'Contraseña incorrecta' });
 
     const token = await createAccessToken({ id: user.id });
     res.cookie('token', token, {
@@ -62,9 +64,10 @@ const login = async (req, res, next) => {
 
 const profile = async (req, res) => {
   const user = await service.findOne(req.user.id);
-  if (!user) {
-    return res.status(404).json({ error: 'Usuario no encontrado' });
-  }
+  // if (!user) {
+  //   return res.status(404).json({ error: 'Usuario no encontrado' });
+  // }
+  if (!user) throw boom.notFound('Usuario no encontrado');
   res.status(200).json({
     id: user.id,
     nombre: user.nombre,

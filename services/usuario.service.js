@@ -26,7 +26,7 @@ class UsersService {
   async findOne(id) {
     const user = await models.Usuario.findByPk(id);
     if (!user) {
-      throw boom.notFound('Usuario not found');
+      throw boom.notFound('Usuario no encontrado');
     }
     return user;
   }
@@ -37,7 +37,7 @@ class UsersService {
       },
     });
     if (!user) {
-      throw boom.notFound('Usuario not found');
+      throw boom.notFound('Usuario no encontrado');
     }
     return user;
   }
