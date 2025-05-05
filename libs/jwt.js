@@ -12,4 +12,13 @@ const createAccessToken = async (payload) => {
   });
 };
 
-module.exports = createAccessToken;
+const verifyAccessToken = async (token) => {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, tokenSecret, (err, decoded) => {
+      if (err) reject(err);
+      resolve(decoded);
+    });
+  });
+};
+
+module.exports = { createAccessToken, verifyAccessToken };

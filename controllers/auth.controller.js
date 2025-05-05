@@ -1,8 +1,9 @@
-const UsersService = require('./../services/usuario.service');
 const bcrypt = require('bcrypt');
 const boom = require('@hapi/boom');
+const jwt = require('jsonwebtoken');
+const UsersService = require('./../services/usuario.service');
 const service = new UsersService();
-const createAccessToken = require('../libs/jwt');
+const { createAccessToken, verifyAccessToken } = require('../libs/jwt');
 
 const register = async (req, res, next) => {
   try {
@@ -65,9 +66,7 @@ const login = async (req, res, next) => {
 
 const profile = async (req, res) => {
   const user = await service.findOne(req.user.id);
-  // if (!user) {
-  //   return res.status(404).json({ error: 'Usuario no encontrado' });
-  // }
+
   if (!user) throw boom.notFound('Usuario no encontrado');
   res.status(200).json({
     id: user.id,
@@ -76,6 +75,28 @@ const profile = async (req, res) => {
     identificacion: user.identificacion,
     createdAt: user.createdAt,
     updatedAt: user.updatedAt,
+  });
+};
+
+const verifyToken = async (req, res) => {
+  const { token } = req.cookies;
+  if (!token) throw boom.unauthorized('No token. Unauthorized');
+
+  const decoded = await verifyAccessToken(token);
+  const userFound = await service.findOne(decoded.id);
+  if (!userFound) throw boom.notFound('Usuario no encontrado');
+
+  res.status(200).json({
+    message: 'Token verificado correctamente',
+    user: {
+      id: userFound.id,
+      nombre: userFound.nombre,
+      correo: userFound.correo,
+      identificacion: userFound.identificacion,
+      rol: userFound.rol,
+      createdAt: userFound.createdAt,
+      updatedAt: userFound.updatedAt,
+    },
   });
 };
 
@@ -93,4 +114,5 @@ module.exports = {
   register,
   profile,
   logout,
+  verifyToken,
 };
