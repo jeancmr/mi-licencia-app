@@ -18,7 +18,18 @@ class ClasesService {
   }
 
   async find() {
-    const clases = await models.Clase.findAll();
+    const clases = await models.Clase.findAll({
+      include: [
+        {
+          association: 'profesor',
+          attributes: ['nombre', 'identificacion'],
+        },
+        {
+          association: 'materia',
+          attributes: ['nombre'],
+        },
+      ],
+    });
 
     return clases;
   }

@@ -20,6 +20,16 @@ async function getEnrollments(req, res, next) {
   }
 }
 
+async function getStudentEnrollments(req, res, next) {
+  try {
+    const { id } = req.params;
+    const enrollments = await service.findByStudent(id);
+    res.json(enrollments);
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function getEnrollment(req, res, next) {
   try {
     const { id } = req.params;
@@ -57,4 +67,5 @@ module.exports = {
   getEnrollment,
   updateEnrollment,
   deleteEnrollment,
+  getStudentEnrollments,
 };

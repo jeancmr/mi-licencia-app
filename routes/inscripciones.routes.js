@@ -12,11 +12,19 @@ const {
   getEnrollment,
   updateEnrollment,
   deleteEnrollment,
+  getStudentEnrollments,
 } = require('../controllers/inscripciones.controller');
 
 const router = express.Router();
 
 router.get('/', authRequired, getEnrollments);
+
+router.get(
+  '/estudiante/:id',
+  authRequired,
+  validatorHandler(getEnrollmentSchema, 'params'),
+  getStudentEnrollments
+);
 
 router.get('/:id', authRequired, validatorHandler(getEnrollmentSchema, 'params'), getEnrollment);
 

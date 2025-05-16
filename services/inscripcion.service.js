@@ -33,6 +33,32 @@ class EnrollmentsService {
     return enrollment;
   }
 
+  async findByStudent(id) {
+    const enrollments = await models.Inscripcion.findAll({
+      where: { estudianteId: id },
+      include: [
+        {
+          association: 'clase',
+          attributes: ['id'],
+          include: [
+            {
+              association: 'profesor',
+              attributes: ['nombre', 'identificacion'],
+            },
+            {
+              association: 'materia',
+              attributes: ['nombre'],
+            },
+          ],
+        },
+      ],
+    });
+    if (!enrollments) {
+      throw boom.notFound('Enrollments not found');
+    }
+    return enrollments;
+  }
+
   async update(id, changes) {
     const enrollment = await this.findOne(id);
     const updatedEnrollment = await enrollment.update(changes);
