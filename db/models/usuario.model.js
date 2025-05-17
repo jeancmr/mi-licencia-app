@@ -33,6 +33,7 @@ const UsuarioSchema = {
   rol: {
     type: DataTypes.ENUM('estudiante', 'profesor', 'admin'),
     allowNull: false,
+    defaultValue: 'estudiante',
   },
   createdAt: {
     allowNull: false,
