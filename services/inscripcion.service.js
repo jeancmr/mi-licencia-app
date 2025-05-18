@@ -39,7 +39,7 @@ class EnrollmentsService {
       include: [
         {
           association: 'clase',
-          attributes: ['id'],
+          attributes: ['id', 'cuposMaximos','fecha', 'horaInicio', 'horaFin','aula' ],
           include: [
             {
               association: 'profesor',
