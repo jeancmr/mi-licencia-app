@@ -86,12 +86,18 @@ class Clase extends Model {
     });
   }
 
-  // toJSON() {
-  //   const values = { ...this.get() };
-  //   delete values.materia_id;
-  //   delete values.profesor_id;
-  //   return values;
-  // }
+  get availableSpots() {
+    if (!this.estudiantes) return this.cuposMaximos;
+
+    return this.cuposMaximos - this.estudiantes.length;
+  }
+
+  toJSON() {
+    const values = { ...this.get() };
+    values.cuposDisponibles = this.availableSpots;
+
+    return values;
+  }
 
   static config(sequelize) {
     return {

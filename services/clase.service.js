@@ -28,6 +28,10 @@ class ClasesService {
           association: 'materia',
           attributes: ['nombre'],
         },
+        {
+          association: 'estudiantes',
+          attributes: ['nombre'],
+        },
       ],
     });
 
