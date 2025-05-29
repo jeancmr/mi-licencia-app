@@ -12,6 +12,7 @@ const {
   getClass,
   updateClass,
   deleteClass,
+  getProfessorClasses,
 } = require('../controllers/clases.controller.js');
 
 const router = express.Router();
@@ -19,6 +20,13 @@ const router = express.Router();
 router.get('/', authRequired, getClasses);
 
 router.get('/:id', authRequired, validatorHandler(getClaseSchema, 'params'), getClass);
+
+router.get(
+  '/professor/:id',
+  authRequired,
+  validatorHandler(getClaseSchema, 'params'),
+  getProfessorClasses
+);
 
 router.post('/', authRequired, validatorHandler(createClaseSchema, 'body'), createClass);
 

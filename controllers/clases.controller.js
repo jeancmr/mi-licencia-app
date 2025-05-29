@@ -20,6 +20,16 @@ async function getClasses(req, res, next) {
   }
 }
 
+async function getProfessorClasses(req, res, next) {
+  try {
+    const { id } = req.params;
+    const classes = await service.findByProfessor(id);
+    res.json(classes);
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function getClass(req, res, next) {
   try {
     const { id } = req.params;
@@ -57,4 +67,5 @@ module.exports = {
   getClass,
   updateClass,
   deleteClass,
+  getProfessorClasses,
 };

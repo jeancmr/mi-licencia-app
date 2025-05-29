@@ -38,6 +38,27 @@ class ClasesService {
     return clases;
   }
 
+  async findByProfessor(profesorId) {
+    const profesor = await models.Usuario.findByPk(profesorId);
+    if (!profesor || profesor.rol !== 'profesor') throw boom.notFound('Profesor not found');
+
+    const clases = await models.Clase.findAll({
+      where: { profesorId },
+      include: [
+        {
+          association: 'materia',
+          attributes: ['nombre'],
+        },
+        {
+          association: 'estudiantes',
+          attributes: ['nombre'],
+        },
+      ],
+    });
+
+    return clases;
+  }
+
   async findOne(id) {
     const clase = await models.Clase.findByPk(id);
     if (!clase) {

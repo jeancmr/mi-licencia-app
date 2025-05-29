@@ -12,6 +12,7 @@ const createUserSchema = Joi.object({
   correo: correo.required(),
   contrasena: contrasena.required(),
   identificacion: identificacion.required(),
+  rol: rol.default('estudiante'),
 });
 const loginUserSchema = Joi.object({
   correo: correo.required(),
