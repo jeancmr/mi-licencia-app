@@ -23,6 +23,35 @@ class AttendancesService {
     return attendance;
   }
 
+  async findByProfessor(profesorId) {
+    const attendances = await models.Asistencia.findAll({
+      include: [
+        {
+          model: models.Clase,
+          as: 'clase',
+          where: { profesorId },
+          include: [
+            {
+              model: models.Materia,
+              as: 'materia',
+              attributes: ['nombre'],
+            },
+          ],
+        },
+        {
+          model: models.Usuario,
+          as: 'estudiante',
+          attributes: ['id', 'nombre', 'correo', 'identificacion'],
+        },
+      ],
+    });
+
+    if (attendances.length === 0) {
+      throw boom.notFound('No attendances found for this professor');
+    }
+    return attendances;
+  }
+
   async update(id, changes) {
     const attendance = await this.findOne(id);
     const updatedAttendance = await attendance.update(changes);

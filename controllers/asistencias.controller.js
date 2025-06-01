@@ -30,6 +30,16 @@ async function getAttendance(req, res, next) {
   }
 }
 
+async function getProfessorAttendance(req, res, next) {
+  try {
+    const { id } = req.params;
+    const attendances = await service.findByProfessor(id);
+    res.json(attendances);
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function updateAttendance(req, res, next) {
   try {
     const { id } = req.params;
@@ -57,4 +67,5 @@ module.exports = {
   getAttendance,
   updateAttendance,
   deleteAttendance,
+  getProfessorAttendance,
 };

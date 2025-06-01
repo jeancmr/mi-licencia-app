@@ -12,12 +12,20 @@ const {
   createAttendance,
   updateAttendance,
   deleteAttendance,
+  getProfessorAttendance,
 } = require('../controllers/asistencias.controller');
 const router = express.Router();
 
 router.get('/', authRequired, getAttendances);
 
 router.get('/:id', authRequired, validatorHandler(getAsistenciaSchema, 'params'), getAttendance);
+
+router.get(
+  '/profesor/:id',
+  authRequired,
+  validatorHandler(getAsistenciaSchema, 'params'),
+  getProfessorAttendance
+);
 
 router.post('/', authRequired, validatorHandler(createAsistenciaSchema, 'body'), createAttendance);
 
