@@ -5,6 +5,7 @@ async function createClass(req, res, next) {
   try {
     const data = req.body;
     const newClass = await service.create(data);
+    console.log('New Class Created:', newClass);
     res.status(201).json(newClass);
   } catch (error) {
     next(error);
