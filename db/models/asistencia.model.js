@@ -76,6 +76,13 @@ class Asistencia extends Model {
       tableName: ASISTENCIA_TABLE,
       modelName: 'Asistencia',
       timestamps: false,
+      indexes: [
+        {
+          unique: true,
+          fields: ['clase_id', 'estudiante_id'],
+          name: 'unique_clase_estudiante',
+        },
+      ],
     };
   }
 }
