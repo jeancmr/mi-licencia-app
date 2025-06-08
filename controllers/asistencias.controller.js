@@ -61,6 +61,22 @@ async function deleteAttendance(req, res, next) {
   }
 }
 
+async function createBulkAttendance(req, res, next) {
+  try {
+    const { claseId, asistencias } = req.body;
+
+    console.log('Datos recibidos:', { claseId, asistencias });
+    if (!claseId || !Array.isArray(asistencias)) {
+      return res.status(400).json({ message: 'Datos inválidos' });
+    }
+
+    const newAttendances = await service.createBulk(claseId, asistencias);
+    res.status(201).json(newAttendances);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   createAttendance,
   getAttendances,
@@ -68,4 +84,5 @@ module.exports = {
   updateAttendance,
   deleteAttendance,
   getProfessorAttendance,
+  createBulkAttendance,
 };

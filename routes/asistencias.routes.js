@@ -13,6 +13,7 @@ const {
   updateAttendance,
   deleteAttendance,
   getProfessorAttendance,
+  createBulkAttendance,
 } = require('../controllers/asistencias.controller');
 const router = express.Router();
 
@@ -28,6 +29,8 @@ router.get(
 );
 
 router.post('/', authRequired, validatorHandler(createAsistenciaSchema, 'body'), createAttendance);
+
+router.post('/registro-multiple', authRequired, createBulkAttendance);
 
 router.patch(
   '/:id',

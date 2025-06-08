@@ -63,6 +63,22 @@ class AttendancesService {
     await attendance.destroy();
     return { id };
   }
+
+  async createBulk(claseId, asistencias) {
+    const fecha = new Date().toISOString();
+
+    const records = asistencias.map(({ estudianteId, asistio }) => ({
+      claseId,
+      estudianteId,
+      asistio,
+      fecha_inscripcion: fecha,
+      created_at: fecha,
+      updated_at: fecha,
+    }));
+
+    const newAttendances = await models.Asistencia.bulkCreate(records);
+    return newAttendances;
+  }
 }
 
 module.exports = AttendancesService;
