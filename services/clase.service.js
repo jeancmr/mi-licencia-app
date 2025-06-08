@@ -7,11 +7,9 @@ class ClasesService {
 
   async create(data) {
     const profesor = await models.Usuario.findByPk(data.profesorId);
-    console.log('PROFESOR -> ', profesor);
     if (!profesor || profesor.rol !== 'profesor') throw boom.notFound('Profesor not found');
 
     const materia = await models.Materia.findByPk(data.materiaId);
-    console.log('MATERIA -> ', materia);
     if (!materia) throw boom.notFound('Materia not found');
 
     await this.crossScheduleProfessor(data);
@@ -32,7 +30,7 @@ class ClasesService {
         },
         {
           association: 'estudiantes',
-          attributes: ['id nombre'],
+          attributes: ['id', 'nombre'],
         },
       ],
     });
