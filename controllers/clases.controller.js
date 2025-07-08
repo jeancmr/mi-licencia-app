@@ -5,7 +5,6 @@ async function createClass(req, res, next) {
   try {
     const data = req.body;
     const newClass = await service.create(data);
-    console.log('New Class Created:', newClass);
     res.status(201).json(newClass);
   } catch (error) {
     next(error);
@@ -15,7 +14,10 @@ async function createClass(req, res, next) {
 async function getClasses(req, res, next) {
   try {
     const classes = await service.find();
-    res.json(classes);
+    res.json({
+      message: 'Classes retrieved successfully',
+      data: classes,
+    });
   } catch (error) {
     next(error);
   }
@@ -25,7 +27,10 @@ async function getProfessorClasses(req, res, next) {
   try {
     const { id } = req.params;
     const classes = await service.findByProfessor(id);
-    res.json(classes);
+    res.json({
+      message: 'Classes retrieved successfully',
+      data: classes,
+    });
   } catch (error) {
     next(error);
   }
