@@ -8,6 +8,7 @@ const {
   getUser,
   updateUser,
   deleteUser,
+  getProfessors,
 } = require('../controllers/usuarios.controller');
 
 const router = express.Router();
@@ -15,6 +16,7 @@ const router = express.Router();
 router.get('/', authRequired, getUsers);
 
 router.get('/estudiantes', authRequired, getStudents);
+router.get('/professors', authRequired, getProfessors);
 
 router.get('/:id', authRequired, validatorHandler(getUserSchema, 'params'), getUser);
 

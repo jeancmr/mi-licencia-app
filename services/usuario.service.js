@@ -23,6 +23,16 @@ class UsersService {
     return students;
   }
 
+  async findProfessors() {
+    const professors = await models.Usuario.findAll({
+      where: {
+        rol: 'profesor',
+      },
+      // include: ['clasesInscritas'],
+    });
+    return professors;
+  }
+
   async findOne(id) {
     const user = await models.Usuario.findByPk(id);
     if (!user) {

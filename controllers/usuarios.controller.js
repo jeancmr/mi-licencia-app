@@ -29,6 +29,15 @@ const getStudents = async (req, res, next) => {
   }
 };
 
+const getProfessors = async (req, res, next) => {
+  try {
+    const users = await service.findProfessors();
+    res.json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
 async function getUser(req, res, next) {
   try {
     const { id } = req.params;
@@ -67,4 +76,5 @@ module.exports = {
   updateUser,
   deleteUser,
   getStudents,
+  getProfessors,
 };
