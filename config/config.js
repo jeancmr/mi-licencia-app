@@ -9,6 +9,8 @@ const config = {
   dbName: process.env.DB_NAME,
   dbPort: process.env.DB_PORT,
   tokenSecret: process.env.TOKEN_SECRET,
+  uri_Production: process.env.URI_PROD,
+  frontendUrl: process.env.FRONTEND_URL,
 };
 
 module.exports = { config };
