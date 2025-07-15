@@ -14,12 +14,6 @@ const allowedOrigins = ['http://localhost:5173', config.frontendUrl];
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: config.frontendUrl,
-    credentials: true,
-  })
-);
 
 app.use(
   cors({
