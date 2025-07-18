@@ -10,7 +10,9 @@ class UsersService {
   }
 
   async find() {
-    const users = await models.Usuario.findAll();
+    const users = await models.Usuario.findAll({
+      order: [['id', 'ASC']],
+    });
     return users;
   }
   async findStudents() {
